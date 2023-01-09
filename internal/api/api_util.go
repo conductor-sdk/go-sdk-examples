@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/conductor-sdk/conductor-go/sdk/client"
@@ -12,6 +13,12 @@ const (
 	SECRET               = "SECRET"
 	CONDUCTOR_SERVER_URL = "CONDUCTOR_SERVER_URL"
 )
+
+func GetWorkflowExecutionURL(workflowId string) string {
+	url := os.Getenv(CONDUCTOR_SERVER_URL)
+	prefix := url[:len(url)-4]
+	return fmt.Sprintf("%s/execution/%s", prefix, workflowId)
+}
 
 func GetApiClientWithAuthentication() *client.APIClient {
 	return client.NewAPIClient(
