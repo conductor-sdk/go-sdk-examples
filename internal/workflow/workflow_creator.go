@@ -29,8 +29,8 @@ func createGetUserDetailsTask() workflow.TaskInterface {
 
 func createEmailOrSMSTask() workflow.TaskInterface {
 	return workflow.NewSwitchTask("emailorsms", "${workflow.input.notificationPref}").
-		SwitchCase("email", createSendEmailTask()).
-		SwitchCase("sms", createSendSMSTask())
+		SwitchCase(Email, createSendEmailTask()).
+		SwitchCase(Sms, createSendSMSTask())
 }
 
 func createSendEmailTask() workflow.TaskInterface {
