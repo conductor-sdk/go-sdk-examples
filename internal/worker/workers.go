@@ -11,8 +11,8 @@ func GetUserInfo(task *model.Task) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	userInfo := NewUserInfo("User X", *userId)
-	userInfo.Email = fmt.Sprintf("%s@example.com", *userId)
+	userInfo := NewUserInfo("User X", userId)
+	userInfo.Email = fmt.Sprintf("%s@example.com", userId)
 	userInfo.PhoneNumber = "555-555-5555"
 	return userInfo, nil
 }
@@ -25,7 +25,7 @@ func SendEmail(task *model.Task) (interface{}, error) {
 	}
 	taskResult.Logs = []model.TaskExecLog{
 		{
-			Log: fmt.Sprintf("sent email to %s", *email),
+			Log: "sent email to: " + email,
 		},
 	}
 	taskResult.Status = model.CompletedTask
@@ -41,7 +41,7 @@ func SendSms(task *model.Task) (interface{}, error) {
 	taskResult.Logs = append(
 		taskResult.Logs,
 		model.TaskExecLog{
-			Log: fmt.Sprintf("sent sms to %s", *phoneNumber),
+			Log: "sent sms to: " + phoneNumber,
 		},
 	)
 	taskResult.Status = model.CompletedTask
