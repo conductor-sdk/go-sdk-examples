@@ -27,14 +27,14 @@ func StartWorkers() {
 	log.Info("started all workers")
 }
 
-func GetValueFromTaskInputData(t *model.Task, key string) (value *string, err error) {
+func GetValueFromTaskInputData(t *model.Task, key string) (string, error) {
 	rawValue, ok := t.InputData[key]
 	if !ok {
-		return nil, fmt.Errorf("key (%s) is not set", key)
+		return "", fmt.Errorf("key (%s) is not set", key)
 	}
-	*value, ok = rawValue.(string)
+	value, ok := rawValue.(string)
 	if !ok {
-		return nil, fmt.Errorf("key (%s) value must be of string type", key)
+		return "", fmt.Errorf("key (%s) value must be of string type", key)
 	}
 	return value, nil
 }
