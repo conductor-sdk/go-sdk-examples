@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -49,11 +50,16 @@ func startWorkflowSync(wf *workflow.ConductorWorkflow) {
 }
 
 func startWorkflowAsync(wf *workflow.ConductorWorkflow) {
-	// time.Sleep(5 * time.Second)
-	// log.Info()
-	// log.Info("=======================================================================================")
-	// log.Info("Workflow Execution Completed")
-	// log.Info("Workflow Id: {workflowId}")
-	// log.Info("Workflow Execution Flow UI: {Examples.Api.ApiUtil.GetWorkflowExecutionURL(workflowId)}")
-	// log.Info("=======================================================================================")
+	workflowInput := workflowUtil.NewWorkflowInput("userA")
+	workflowId, err := wf.StartWorkflowWithInput(workflowInput)
+	if err != nil {
+		panic("failed to start async workflow, err: " + fmt.Sprint(err))
+	}
+	time.Sleep(5 * time.Second)
+	log.Info()
+	log.Info("=======================================================================================")
+	log.Info("Workflow Execution Completed")
+	log.Info("Workflow Id: " + workflowId)
+	log.Info("Workflow Execution Flow UI: " + apiUtil.GetWorkflowExecutionURL(workflowId))
+	log.Info("=======================================================================================")
 }
