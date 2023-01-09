@@ -27,7 +27,7 @@ export CONDUCTOR_SERVER_URL=https://play.orkes.io/api
 
 Run the main program
 ```shell
-dotnet run
+go run main.go
 ```
 
 ## Workflow
@@ -38,7 +38,14 @@ We create a simple 2-step workflow that fetches the user details and sends an em
 <td width="50%"><img src="workflow.png" width="250px"></td>
 <td>
 <pre> 
-TODO
+func CreateWorkflow() *workflow.ConductorWorkflow {
+	return workflow.NewConductorWorkflow(workflowExecutor).
+		Name("user_notification").
+		Version(1).
+		InputParameters("userId", "notificationPref").
+		Add(workflow.NewSimpleTask("get_user_info", "get_user_info").Input("userId", "${workflow.input.userId}")).
+        Add(workflow.NewSwitchTask("emailorsms", "${workflow.input.notificationPref}"))
+}
 </pre>
 </td>
 </tr>
@@ -46,7 +53,7 @@ TODO
 
 
 ## Worker
-Workers are a simple interface implementation. See [TODO](src/Examples/Worker) for more details.
+Workers are a simple interface implementation. See [workers.go](/internal/worker/workers.go) for more details.
 
 ## Executing Workflows
 
@@ -57,13 +64,13 @@ There are two ways to execute a workflow:
 ### Synchronous Workflow Execution
 
 ```go
-// TODO
+ConductorWorkflow#ExecuteWorkflow(...)
 ```
 
 ### Asynchronous Workflow Execution
 
 ```go
-// TODO
+ConductorWorkflow#StartWorkflow(...)
 ```
 
-See [TODO](src/Examples/Main) for complete code sample of workflow execution.
+See [main.go](/main.go) for complete code sample of workflow execution.
