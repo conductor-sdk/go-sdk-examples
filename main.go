@@ -1,20 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"os"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 
+	"github.com/conductor-sdk/conductor-go/sdk/model"
 	"github.com/conductor-sdk/conductor-go/sdk/workflow"
 
-	"github.com/conductor-sdk/go-sdk-examples/internal/worker"
+	apiUtil "github.com/conductor-sdk/go-sdk-examples/internal/api"
+	workerUtil "github.com/conductor-sdk/go-sdk-examples/internal/worker"
 	workflowUtil "github.com/conductor-sdk/go-sdk-examples/internal/workflow"
 )
 
 func main() {
 	setupLogSettings()
-	worker.StartWorkers()
+	workerUtil.StartWorkers()
 	wf := workflowUtil.CreateAndRegisterWorkflow()
 	startWorkflowSync(wf)
 	startWorkflowAsync(wf)
@@ -23,27 +25,35 @@ func main() {
 func setupLogSettings() {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.InfoLevel)
+	log.SetLevel(log.TraceLevel)
 	log.Info("Finished setting up log settings")
 }
 
 func startWorkflowSync(wf *workflow.ConductorWorkflow) {
+	workflowInput := workflowUtil.NewWorkflowInput("userA")
+	workflowRun, err := wf.ExecuteWorkflowWithInput(workflowInput, "")
+	if err != nil {
+		panic("failed to execute sync workflow, err: " + fmt.Sprint(err))
+	}
 	log.Info()
 	log.Info("=======================================================================================")
 	log.Info("Workflow Execution Completed")
-	// log.Info("Workflow Id: " + workflowRun.WorkflowId)
-	// log.Info("Workflow Status: " + workflowRun.Status.ToString())
-	// log.Info("Workflow Output: " + workflowRun.Output.ToString())
-	// log.Info("Workflow Execution Flow UI: {Examples.Api.ApiUtil.GetWorkflowExecutionURL(workflowRun.WorkflowId)}")
+	log.Info("Workflow Id: " + workflowRun.WorkflowId)
+	log.Info("Workflow Status: " + workflowRun.Status)
+	log.Info("Workflow Output: " + fmt.Sprint(workflowRun.Output))
+	log.Info("Workflow Execution Flow UI: " + apiUtil.GetWorkflowExecutionURL(workflowRun.WorkflowId))
 	log.Info("=======================================================================================")
+	if workflowRun.Status != string(model.CompletedWorkflow) {
+		panic("workflow not completed")
+	}
 }
 
 func startWorkflowAsync(wf *workflow.ConductorWorkflow) {
-	time.Sleep(5 * time.Second)
-	log.Info()
-	log.Info("=======================================================================================")
-	log.Info("Workflow Execution Completed")
+	// time.Sleep(5 * time.Second)
+	// log.Info()
+	// log.Info("=======================================================================================")
+	// log.Info("Workflow Execution Completed")
 	// log.Info("Workflow Id: {workflowId}")
 	// log.Info("Workflow Execution Flow UI: {Examples.Api.ApiUtil.GetWorkflowExecutionURL(workflowId)}")
-	log.Info("=======================================================================================")
+	// log.Info("=======================================================================================")
 }
