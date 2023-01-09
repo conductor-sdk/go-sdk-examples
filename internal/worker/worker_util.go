@@ -6,6 +6,7 @@ import (
 
 	"github.com/conductor-sdk/conductor-go/sdk/model"
 	"github.com/conductor-sdk/conductor-go/sdk/worker"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/conductor-sdk/go-sdk-examples/internal/api"
 )
@@ -23,6 +24,7 @@ func StartWorkers() {
 	startWorker("get_user_info", GetUserInfo)
 	startWorker("send_email", SendEmail)
 	startWorker("send_sms", SendSms)
+	log.Info("started all workers")
 }
 
 func GetValueFromTaskInputData(t *model.Task, key string) (value *string, err error) {

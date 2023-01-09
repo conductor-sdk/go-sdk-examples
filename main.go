@@ -12,7 +12,7 @@ import (
 func setupLogSettings() {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.DebugLevel)
+	log.SetLevel(log.InfoLevel)
 	log.Info("Finished setting up log settings")
 }
 
