@@ -13,6 +13,6 @@ type WorkflowInput struct {
 func NewWorkflowInput(userId string) *WorkflowInput {
 	return &WorkflowInput{
 		UserId:           userId,
-		NotificationPref: Sms,
+		NotificationPref: Email,
 	}
 }
