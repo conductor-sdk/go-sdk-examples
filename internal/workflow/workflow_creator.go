@@ -13,6 +13,19 @@ func CreateAndRegisterWorkflow() *workflow.ConductorWorkflow {
 	return wf
 }
 
+func CreateAndRegisterDynamicForkWorkflow() *workflow.ConductorWorkflow {
+	wf := workflow.NewConductorWorkflow(workflowExecutor).
+		Name("dynamic_fork_example").
+		Version(1).
+		InputParameters("userId", "notificationPref").
+		Add(workflow.NewDynamicForkTask("fork", workflow.NewSimpleTask("dyn_fork_prep", "dyn_fork_prep")))
+	workflowExecutor.RegisterWorkflow(
+		true,
+		wf.ToWorkflowDef(),
+	)
+	return wf
+}
+
 func createComplexWorkflow() *workflow.ConductorWorkflow {
 	return workflow.NewConductorWorkflow(workflowExecutor).
 		Name("user_notification").

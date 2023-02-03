@@ -24,6 +24,7 @@ func StartWorkers() {
 	startWorker("get_user_info", GetUserInfo)
 	startWorker("send_email", SendEmail)
 	startWorker("send_sms", SendSms)
+	startWorker("dyn_fork_prep", DynamicForkWorker)
 	log.Info("started all workers")
 }
 

@@ -19,14 +19,21 @@ func main() {
 	setupLogSettings()
 	workerUtil.StartWorkers()
 	wf := workflowUtil.CreateAndRegisterWorkflow()
+	log.Info("\n\nStarting a workflow synchronously")
 	startWorkflowSync(wf)
+
+	log.Info("\n\nStarting a workflow asynchronously")
 	startWorkflowAsync(wf)
+
+	log.Info("\n\nStarting a workflow with Dynamic Fork/Join")
+	dynWorkflow := workflowUtil.CreateAndRegisterDynamicForkWorkflow()
+	startWorkflowSync(dynWorkflow)
 }
 
 func setupLogSettings() {
-	log.SetFormatter(&log.JSONFormatter{})
+	log.SetFormatter(&log.TextFormatter{})
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.TraceLevel)
+	log.SetLevel(log.InfoLevel)
 	log.Info("Finished setting up log settings")
 }
 
