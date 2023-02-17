@@ -3,7 +3,7 @@ module github.com/conductor-sdk/go-sdk-examples
 go 1.17
 
 require (
-	github.com/conductor-sdk/conductor-go v1.2.17
+	github.com/conductor-sdk/conductor-go v1.2.21
 	github.com/sirupsen/logrus v1.8.1
 )
 
@@ -13,6 +13,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/prometheus/client_golang v1.12.1 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
