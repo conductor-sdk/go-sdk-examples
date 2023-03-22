@@ -3,7 +3,7 @@ module github.com/conductor-sdk/go-sdk-examples
 go 1.17
 
 require (
-	github.com/conductor-sdk/conductor-go v1.2.23
+	github.com/conductor-sdk/conductor-go v1.3.0
 	github.com/sirupsen/logrus v1.8.1
 )
 
