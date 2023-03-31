@@ -28,6 +28,8 @@ func main() {
 	log.Info("\n\nStarting a workflow with Dynamic Fork/Join")
 	dynWorkflow := workflowUtil.CreateAndRegisterDynamicForkWorkflow()
 	startWorkflowSync(dynWorkflow)
+
+	workflowUtil.StartWorkflowWithRequest()
 }
 
 func setupLogSettings() {

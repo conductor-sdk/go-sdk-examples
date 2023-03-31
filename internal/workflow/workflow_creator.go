@@ -1,6 +1,7 @@
 package workflow
 
 import (
+	"github.com/conductor-sdk/conductor-go/sdk/model"
 	"github.com/conductor-sdk/conductor-go/sdk/workflow"
 )
 
@@ -16,7 +17,7 @@ func CreateAndRegisterWorkflow() *workflow.ConductorWorkflow {
 func CreateAndRegisterDynamicForkWorkflow() *workflow.ConductorWorkflow {
 	wf := workflow.NewConductorWorkflow(workflowExecutor).
 		Name("dynamic_fork_example").
-		Version(1).
+		Version(3).
 		InputParameters("userId", "notificationPref").
 		Add(workflow.NewDynamicForkTask("fork", workflow.NewSimpleTask("dyn_fork_prep", "dyn_fork_prep")))
 	workflowExecutor.RegisterWorkflow(
@@ -24,6 +25,18 @@ func CreateAndRegisterDynamicForkWorkflow() *workflow.ConductorWorkflow {
 		wf.ToWorkflowDef(),
 	)
 	return wf
+}
+
+func StartWorkflowWithRequest() {
+	startWorkflowRequest := model.StartWorkflowRequest{
+		Name:    "dynamic_fork_example",
+		Version: 0,
+	}
+	workflowId, err := workflowExecutor.StartWorkflow(&startWorkflowRequest)
+	if err != nil {
+		panic("failed to start wf with version 0")
+	}
+	print("started workflowId: ", workflowId)
 }
 
 func createComplexWorkflow() *workflow.ConductorWorkflow {
